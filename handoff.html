@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<title>Project Handoff Checklist</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --bg-surface: #161b22;
+  --bg-elevated: #1c2129;
+  --bg-input: #10151c;
+  --text: #e8e6e0;
+  --text-dim: #8b949e;
+  --text-muted: #5a6068;
+  --accent: #4a9b8e;
+  --accent-dim: #3a7b6e;
+  --accent-soft: rgba(74, 155, 142, 0.15);
+  --warn: #e9a11a;
+  --warn-soft: rgba(233, 161, 26, 0.12);
+  --danger: #d4622a;
+  --done: #2d9d6a;
+  --done-soft: rgba(45, 157, 106, 0.15);
+  --doing: #e9a11a;
+  --na: #5a6068;
+  --border: #21262d;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+:root[data-theme="light"] {
+  --bg: #f4f3ef;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f8f7f4;
+  --bg-input: #f0efeb;
+  --text: #1c2129;
+  --text-dim: #57606a;
+  --text-muted: #8b949e;
+  --accent: #2d7a6e;
+  --accent-dim: #3a8b7e;
+  --accent-soft: rgba(45, 122, 110, 0.12);
+  --warn: #b07800;
+  --warn-soft: rgba(176, 120, 0, 0.1);
+  --danger: #c0491a;
+  --done: #1a7d4f;
+  --done-soft: rgba(26, 125, 79, 0.12);
+  --doing: #b07800;
+  --na: #8b949e;
+  --border: #d8d6d0;
+  --shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100%;
+}
+button { font-family: inherit; cursor: pointer; }
+input, textarea, select { font-family: inherit; font-size: 14px; color: var(--text); }
+textarea { resize: vertical; }
+
+.wrap { max-width: 860px; margin: 0 auto; padding: 20px 16px 80px; }
+
+/* ---- Header ---- */
+header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+header .spacer { flex: 1; }
+.icon-btn {
+  background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-dim);
+  border-radius: var(--radius-sm); padding: 6px 10px; font-size: 13px;
+}
+.icon-btn:hover { color: var(--text); border-color: var(--text-muted); }
+
+/* ---- Toolbar ---- */
+.toolbar {
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 12px; margin-bottom: 16px;
+}
+.toolbar select {
+  background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 7px 10px; min-width: 160px; flex: 1; max-width: 280px;
+}
+.btn {
+  background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text);
+  border-radius: var(--radius-sm); padding: 7px 12px; font-size: 13px; font-weight: 500;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--text-muted); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-dim); }
+.btn.danger-ghost { color: var(--danger); }
+.saved-note { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+/* ---- Overview card ---- */
+.overview {
+  background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; margin-bottom: 16px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+}
+.ring { position: relative; width: 74px; height: 74px; flex-shrink: 0; }
+.ring svg { transform: rotate(-90deg); }
+.ring .pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }
+.overview .ov-main { flex: 1; min-width: 220px; }
+.overview .ov-name { font-size: 17px; font-weight: 700; }
+.overview .ov-meta { font-size: 12.5px; color: var(--text-dim); margin-top: 2px; }
+.next-action {
+  margin-top: 8px; background: var(--accent-soft); border: 1px solid var(--accent);
+  border-radius: var(--radius-sm); padding: 8px 10px; font-size: 13px; cursor: pointer;
+}
+.next-action b { color: var(--accent); }
+.next-action.all-done { background: var(--done-soft); border-color: var(--done); cursor: default; }
+.rigor-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+.seg button { background: var(--bg-elevated); color: var(--text-dim); border: none; padding: 5px 11px; font-size: 12.5px; }
+.seg button.on { background: var(--accent); color: #fff; }
+.hint-chip { font-size: 12px; color: var(--warn); background: var(--warn-soft); border: 1px solid var(--warn); border-radius: 20px; padding: 3px 10px; }
+
+.banner {
+  border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 14px; font-size: 13.5px;
+  border: 1px solid var(--warn); background: var(--warn-soft); color: var(--text);
+}
+
+/* ---- Filter row ---- */
+.filter-row { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+.filter-row .seg button.on { background: var(--bg-input); color: var(--text); }
+.filter-row .grow { flex: 1; }
+
+/* ---- Phase cards ---- */
+.phase {
+  background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius);
+  margin-bottom: 12px; overflow: hidden;
+}
+.phase-head {
+  display: flex; align-items: center; gap: 12px; padding: 13px 16px; cursor: pointer; user-select: none;
+}
+.phase-head:hover { background: var(--bg-elevated); }
+.phase-num {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--bg-elevated);
+  border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0; color: var(--text-dim);
+}
+.phase.complete .phase-num { background: var(--done-soft); border-color: var(--done); color: var(--done); }
+.phase-title-wrap { flex: 1; min-width: 0; }
+.phase-title { font-size: 15px; font-weight: 700; }
+.phase-sub { font-size: 12px; color: var(--text-dim); }
+.phase-pct { font-size: 12.5px; color: var(--text-dim); white-space: nowrap; }
+.chev { color: var(--text-muted); transition: transform 150ms; font-size: 12px; }
+.phase.open .chev { transform: rotate(90deg); }
+.phase-bar { height: 3px; background: var(--border); }
+.phase-bar i { display: block; height: 100%; background: var(--accent); transition: width 250ms; }
+.phase.complete .phase-bar i { background: var(--done); }
+.phase-body { display: none; padding: 6px 16px 16px; }
+.phase.open .phase-body { display: block; }
+.group-title {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);
+  font-weight: 700; margin: 14px 0 6px;
+}
+
+/* ---- Items ---- */
+.item { padding: 9px 0; border-bottom: 1px solid var(--border); }
+.item:last-child { border-bottom: none; }
+.item-row { display: flex; align-items: flex-start; gap: 10px; }
+.st-btn {
+  width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--text-muted);
+  background: transparent; flex-shrink: 0; margin-top: 1px; font-size: 12px; line-height: 1;
+  color: transparent; display: flex; align-items: center; justify-content: center;
+}
+.item[data-status="doing"] .st-btn { border-color: var(--doing); background: var(--warn-soft); color: var(--doing); }
+.item[data-status="done"] .st-btn { border-color: var(--done); background: var(--done); color: #fff; }
+.item[data-status="na"] .st-btn { border-style: dashed; border-color: var(--na); color: var(--na); }
+.item-main { flex: 1; min-width: 0; }
+.item-label { font-size: 14px; font-weight: 500; }
+.item[data-status="done"] .item-label { color: var(--text-dim); }
+.item[data-status="na"] .item-label { color: var(--text-muted); text-decoration: line-through; }
+.item-hint { font-size: 12.5px; color: var(--text-muted); margin-top: 1px; }
+.opt-tag { font-size: 10.5px; color: var(--text-muted); border: 1px solid var(--border); border-radius: 8px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+.item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.mini-btn { background: none; border: none; color: var(--text-muted); font-size: 11.5px; padding: 3px 5px; border-radius: 6px; }
+.mini-btn:hover { color: var(--text); background: var(--bg-elevated); }
+.mini-btn.active { color: var(--accent); }
+.item-input { margin-top: 7px; }
+.item-input input[type="text"], .item-input textarea, .item-input select {
+  width: 100%; background: var(--bg-input); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 8px 10px;
+}
+.item-input textarea { min-height: 62px; }
+.item-input input:focus, .item-input textarea:focus, .item-input select:focus { outline: none; border-color: var(--accent); }
+.item-note { margin-top: 6px; }
+.item-note textarea {
+  width: 100%; background: var(--bg-input); border: 1px dashed var(--border);
+  border-radius: var(--radius-sm); padding: 7px 10px; font-size: 13px; min-height: 40px; color: var(--text-dim);
+}
+.na-reason { margin-top: 6px; font-size: 12.5px; color: var(--text-muted); font-style: italic; }
+
+/* ---- Gate ---- */
+.gate {
+  margin-top: 14px; padding: 12px; border-radius: var(--radius-sm);
+  border: 1px dashed var(--border); display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.gate .gate-label { font-size: 13.5px; font-weight: 600; flex: 1; min-width: 180px; }
+.gate.pass { border: 1px solid var(--done); background: var(--done-soft); }
+.gate.park { border: 1px solid var(--warn); background: var(--warn-soft); }
+
+/* ---- MoSCoW board ---- */
+.moscow { margin-top: 8px; }
+.moscow-add { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.moscow-add input { flex: 1; min-width: 160px; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; }
+.moscow-add select { background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px; }
+.feat { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: var(--radius-sm); background: var(--bg-elevated); margin-bottom: 6px; }
+.feat .pri {
+  font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; color: #fff;
+}
+.pri.M { background: var(--danger); } .pri.S { background: var(--warn); color:#1c2129; } .pri.C { background: var(--accent); } .pri.W { background: var(--na); }
+.feat .feat-name { flex: 1; font-size: 13.5px; min-width: 0; overflow-wrap: anywhere; }
+.feat.done .feat-name { color: var(--text-dim); text-decoration: line-through; }
+.feat .feat-st { font-size: 11.5px; border: 1px solid var(--border); background: none; color: var(--text-dim); border-radius: 6px; padding: 2px 8px; }
+.feat.doing .feat-st { color: var(--doing); border-color: var(--doing); }
+.feat.done .feat-st { color: var(--done); border-color: var(--done); }
+.feat .del { background: none; border: none; color: var(--text-muted); font-size: 13px; padding: 2px 5px; }
+.feat .del:hover { color: var(--danger); }
+.moscow-legend { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
+.feat-summary { font-size: 12.5px; color: var(--text-dim); margin: 8px 0; padding: 8px 10px; background: var(--bg-elevated); border-radius: var(--radius-sm); }
+
+/* ---- Handoff panel ---- */
+.handoff-panel { background: var(--bg-surface); border: 1px solid var(--accent-dim); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+.handoff-panel .phase-head { border-left: 3px solid var(--accent); }
+.ho-field { margin-bottom: 12px; }
+.ho-field label { display: block; font-size: 12.5px; font-weight: 600; color: var(--text-dim); margin-bottom: 4px; }
+.ho-field textarea { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; min-height: 56px; }
+.decision-add { display: flex; gap: 8px; }
+.decision-add input { flex: 1; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; }
+.decision { display: flex; gap: 10px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+.decision:last-child { border-bottom: none; }
+.decision .d-date { color: var(--text-muted); font-size: 12px; white-space: nowrap; }
+.decision .d-text { flex: 1; overflow-wrap: anywhere; }
+.decision .del { background: none; border: none; color: var(--text-muted); }
+.decision .del:hover { color: var(--danger); }
+
+/* ---- Empty state ---- */
+.empty { text-align: center; padding: 60px 20px; color: var(--text-dim); }
+.empty h2 { color: var(--text); margin-bottom: 8px; font-size: 18px; }
+.empty p { max-width: 440px; margin: 0 auto 20px; font-size: 14px; }
+.empty .btn { margin: 4px; }
+
+/* ---- Toast ---- */
+#toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text);
+  padding: 10px 18px; border-radius: 30px; font-size: 13.5px; box-shadow: var(--shadow);
+  transition: transform 250ms ease; z-index: 100; max-width: 90vw;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+
+footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 30px; }
+@media (max-width: 520px) {
+  .item-actions { flex-direction: column; }
+  .toolbar select { max-width: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Project Handoff Checklist</h1>
+    <span class="spacer"></span>
+    <button class="icon-btn" id="themeBtn" title="Toggle theme">◐ Theme</button>
+  </header>
+
+  <div class="toolbar">
+    <select id="projectSelect" title="Active project"></select>
+    <button class="btn" id="newBtn">+ New</button>
+    <button class="btn" id="renameBtn">Rename</button>
+    <button class="btn danger-ghost" id="deleteBtn">Delete</button>
+    <button class="btn primary" id="exportBtn">⬇ Export JSON</button>
+    <button class="btn" id="copyMdBtn">Copy handoff .md</button>
+    <button class="btn" id="importBtn">Import</button>
+    <input type="file" id="importFile" accept=".json,application/json" hidden>
+    <span class="saved-note" id="savedNote"></span>
+  </div>
+
+  <div id="app"></div>
+
+  <footer>Everything is stored locally in your browser. Export JSON to hand off or back up. · v1.0.0</footer>
+</div>
+<div id="toast"></div>
+
+<script>
+'use strict';
+
+/* ================= Template ================= */
+const APP_VERSION = '1.0.0';
+const SCHEMA_VERSION = 1;
+const STORE_KEY = 'handoff-checklist-v1';
+
+// rigor: 'all' = required in every mode; 'full' = required only in Full-rigor mode (optional in Lightweight)
+const TEMPLATE = [
+  {
+    id: 'p0', num: '0', title: 'Quick Validation', sub: '5–15 mins — before deep explanation',
+    groups: [
+      { title: 'Problem / Solution Fit', items: [
+        { id: 'p0_pain', type: 'long', rigor: 'all', label: 'What specific pain point does this solve?',
+          hint: 'User story: “As a [user], I want [feature] so that [benefit]”' },
+        { id: 'p0_must', type: 'select', rigor: 'all', label: 'Must-have or nice-to-have?',
+          options: ['Must-have', 'Nice-to-have'] },
+        { id: 'p0_scope', type: 'select', rigor: 'all', label: 'Who is this for?',
+          options: ['Personal only', 'Personal but shareable', 'Team / professional', 'Public'],
+          hint: 'Drives how much rigor the checklist expects.' },
+        { id: 'p0_metric', type: 'text', rigor: 'all', label: 'Success metric — how will you know it worked?',
+          hint: 'e.g. “Saves me 2 hours/week”, “Resume any project in <5 min”' },
+      ]},
+      { title: 'Feasibility Check', items: [
+        { id: 'p0_constraints', type: 'long', rigor: 'all', label: 'Tech constraints? Existing tools / libraries?' },
+        { id: 'p0_effort', type: 'select', rigor: 'all', label: 'Rough effort estimate',
+          options: ['Small', 'Medium', 'Large'] },
+      ]},
+    ],
+    gate: true,
+  },
+  {
+    id: 'p1', num: '1', title: 'Explain the Idea Clearly', sub: 'One doc, be verbose — prevents scope creep later',
+    groups: [
+      { title: 'The Pitch', items: [
+        { id: 'p1_overview', type: 'long', rigor: 'all', label: 'Overview — one-paragraph elevator pitch' },
+        { id: 'p1_goals', type: 'long', rigor: 'all', label: 'Goals — what it will do' },
+        { id: 'p1_nongoals', type: 'long', rigor: 'all', label: 'Non-goals — what it explicitly won’t do',
+          hint: 'The scope-creep firewall. Be explicit.' },
+        { id: 'p1_users', type: 'long', rigor: 'all', label: 'Target users & their skill level' },
+      ]},
+      { title: 'Key Features (MoSCoW)', items: [
+        { id: 'p1_features', type: 'moscow', rigor: 'all', label: 'Prioritized feature list',
+          hint: 'Click the priority badge to cycle Must / Should / Could / Won’t. Status feeds Phase 3.' },
+      ]},
+      { title: 'Shape & Boundaries', items: [
+        { id: 'p1_io', type: 'long', rigor: 'all', label: 'Inputs / outputs — data flows, examples' },
+        { id: 'p1_constraints', type: 'long', rigor: 'all', label: 'Constraints — budget, platform, integrations, performance, security/privacy' },
+        { id: 'p1_inspo', type: 'long', rigor: 'full', label: 'Inspirations / references — similar tools, screenshots, existing code' },
+      ]},
+    ],
+  },
+  {
+    id: 'p2', num: '2', title: 'Map the Framework', sub: 'Design & planning — keep artifacts lightweight',
+    groups: [
+      { title: 'High-Level Architecture', items: [
+        { id: 'p2_components', type: 'long', rigor: 'all', label: 'Components / modules', hint: 'Frontend / backend / db / CLI / single-file…' },
+        { id: 'p2_datamodel', type: 'long', rigor: 'all', label: 'Data model — entities, schemas', hint: 'Simple text or Mermaid is fine.' },
+        { id: 'p2_stack', type: 'long', rigor: 'all', label: 'Tech stack decision + why',
+          hint: 'Criteria: familiarity, ecosystem, maintenance burden, performance.' },
+        { id: 'p2_deps', type: 'long', rigor: 'full', label: 'External dependencies & licensing' },
+      ]},
+      { title: 'Detailed Requirements', items: [
+        { id: 'p2_functional', type: 'long', rigor: 'all', label: 'Functional — user flows, edge cases' },
+        { id: 'p2_nonfunctional', type: 'long', rigor: 'full', label: 'Non-functional — reliability, scalability, logging, accessibility, i18n' },
+        { id: 'p2_errors', type: 'long', rigor: 'all', label: 'Error handling & recovery strategy' },
+      ]},
+      { title: 'Project Setup Plan', items: [
+        { id: 'p2_repo', type: 'text', rigor: 'full', label: 'Repo structure' },
+        { id: 'p2_tooling', type: 'text', rigor: 'full', label: 'Build/dev tools — linting, formatting, test framework' },
+        { id: 'p2_env', type: 'text', rigor: 'full', label: 'Environment setup — Docker? .env?' },
+        { id: 'p2_docs', type: 'text', rigor: 'full', label: 'Documentation location — README, inline, separate docs' },
+      ]},
+      { title: 'Risks & Dependencies', items: [
+        { id: 'p2_blockers', type: 'long', rigor: 'all', label: 'Potential blockers — APIs, auth, data sources' },
+        { id: 'p2_testing', type: 'long', rigor: 'full', label: 'Testing strategy — unit, integration, manual' },
+        { id: 'p2_deploy', type: 'text', rigor: 'all', label: 'Deployment target — local, server, app store, web' },
+      ]},
+    ],
+  },
+  {
+    id: 'p3', num: '3', title: 'Implementation', sub: 'Iterative building in small, testable chunks',
+    groups: [
+      { title: 'Build Order', items: [
+        { id: 'p3_scaffold', type: 'check', rigor: 'all', label: 'Scaffold first — project init, basic structure, “Hello World” end-to-end' },
+        { id: 'p3_features', type: 'featprogress', rigor: 'all', label: 'Incremental features — Must-haves in priority order',
+          hint: 'Tracked on the Phase 1 MoSCoW board. Test after each; this completes when every Must-have is done.' },
+      ]},
+      { title: 'Code Quality Gates', items: [
+        { id: 'p3_readability', type: 'check', rigor: 'all', label: 'Readability & comments (why, not what)' },
+        { id: 'p3_modular', type: 'check', rigor: 'all', label: 'Modular, single-responsibility' },
+        { id: 'p3_errhandling', type: 'check', rigor: 'all', label: 'Error handling & logging' },
+        { id: 'p3_config', type: 'check', rigor: 'all', label: 'Configuration over hardcoding' },
+        { id: 'p3_tests', type: 'check', rigor: 'full', label: 'Tests for core logic' },
+        { id: 'p3_branches', type: 'check', rigor: 'full', label: 'Branches used for experiments' },
+      ]},
+    ],
+  },
+  {
+    id: 'p4', num: '4', title: 'Polish, Test & Release', sub: 'Make it real',
+    groups: [
+      { title: 'Testing', items: [
+        { id: 'p4_happy', type: 'check', rigor: 'all', label: 'Happy path + edge cases tested' },
+        { id: 'p4_perf', type: 'check', rigor: 'full', label: 'Performance / load tested (if relevant)' },
+        { id: 'p4_compat', type: 'check', rigor: 'all', label: 'Cross-platform / browser compatibility checked' },
+      ]},
+      { title: 'Documentation', items: [
+        { id: 'p4_readme', type: 'check', rigor: 'all', label: 'README — setup, usage, examples' },
+        { id: 'p4_archnotes', type: 'check', rigor: 'full', label: 'Inline + architecture notes' },
+        { id: 'p4_changelog', type: 'check', rigor: 'full', label: 'Changelog' },
+      ]},
+      { title: 'Deployment / Packaging', items: [
+        { id: 'p4_package', type: 'check', rigor: 'all', label: 'Packaged — executable, container, web app…' },
+        { id: 'p4_cicd', type: 'check', rigor: 'full', label: 'CI/CD if it makes sense (GitHub Actions)' },
+      ]},
+      { title: 'Review', items: [
+        { id: 'p4_security', type: 'check', rigor: 'all', label: 'Security checklist — input validation, secrets' },
+        { id: 'p4_maintenance', type: 'check', rigor: 'full', label: 'Maintenance plan — update deps, monitoring' },
+      ]},
+    ],
+  },
+  {
+    id: 'p5', num: '5', title: 'Post-Launch', sub: 'Often overlooked',
+    groups: [
+      { title: 'Keep It Alive', items: [
+        { id: 'p5_feedback', type: 'long', rigor: 'all', label: 'Usage feedback loop — what are you hearing/observing?' },
+        { id: 'p5_debt', type: 'long', rigor: 'all', label: 'Refactoring debt list' },
+        { id: 'p5_versioning', type: 'check', rigor: 'full', label: 'Versioning & release notes in place' },
+        { id: 'p5_lessons', type: 'long', rigor: 'all', label: 'Lessons learned — archive for future projects' },
+      ]},
+    ],
+  },
+];
+
+const ALL_ITEMS = [];
+TEMPLATE.forEach(ph => ph.groups.forEach(g => g.items.forEach(it => ALL_ITEMS.push({ ...it, phaseId: ph.id, phaseTitle: `Phase ${ph.num}: ${ph.title}`, group: g.title }))));
+const ITEM_BY_ID = Object.fromEntries(ALL_ITEMS.map(it => [it.id, it]));
+
+/* ================= State ================= */
+let store = loadStore();
+let statusFilter = 'all'; // all | open | done | na
+let openPhases = {};      // phaseId -> bool (UI only, per session)
+let noteOpen = {};        // itemId -> bool
+
+function loadStore() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) {
+      const s = JSON.parse(raw);
+      if (s && Array.isArray(s.projects)) return s;
+    }
+  } catch (e) { console.warn('Failed to load store', e); }
+  return { version: 1, theme: 'auto', projects: [], activeId: null };
+}
+function save() {
+  const proj = activeProject();
+  if (proj) proj.updatedAt = new Date().toISOString();
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(store));
+    const el = document.getElementById('savedNote');
+    el.textContent = 'Saved ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  } catch (e) {
+    toast('⚠ Could not save (storage full?)');
+  }
+}
+function activeProject() { return store.projects.find(p => p.id === store.activeId) || null; }
+
+function newProject(name, rigor) {
+  return {
+    id: 'proj_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    name: name,
+    rigor: rigor || 'light', // 'light' | 'full'
+    gate: 'pending',         // 'pending' | 'pass' | 'park'
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    items: {},               // id -> { status, value, note, naReason }
+    features: [],            // { id, name, priority: M|S|C|W, status: todo|doing|done }
+    handoff: { currentState: '', nextAction: '', knownIssues: '', decisions: [] },
+  };
+}
+function itemState(proj, id) {
+  if (!proj.items[id]) proj.items[id] = { status: 'todo', value: '', note: '', naReason: '' };
+  return proj.items[id];
+}
+
+/* ================= Derived logic ================= */
+function isRequired(proj, it) { return it.rigor === 'all' || proj.rigor === 'full'; }
+
+function itemDone(proj, it) {
+  const st = itemState(proj, it.id);
+  if (st.status === 'na') return null; // excluded
+  if (it.type === 'check') return st.status === 'done';
+  if (it.type === 'moscow') return proj.features.length > 0;
+  if (it.type === 'featprogress') {
+    const musts = proj.features.filter(f => f.priority === 'M');
+    return musts.length > 0 && musts.every(f => f.status === 'done');
+  }
+  return (st.value || '').trim().length > 0; // text/long/select auto-complete on answer
+}
+
+function effectiveStatus(proj, it) {
+  const st = itemState(proj, it.id);
+  if (st.status === 'na') return 'na';
+  if (itemDone(proj, it)) return 'done';
+  if (it.type === 'check' && st.status === 'doing') return 'doing';
+  if ((it.type === 'featprogress') && proj.features.some(f => f.priority === 'M' && f.status !== 'todo')) return 'doing';
+  return 'todo';
+}
+
+function phaseProgress(proj, ph) {
+  let req = 0, done = 0;
+  ph.groups.forEach(g => g.items.forEach(it => {
+    if (!isRequired(proj, it)) return;
+    const d = itemDone(proj, it);
+    if (d === null) return; // N/A
+    req++;
+    if (d) done++;
+  }));
+  return { req, done, pct: req === 0 ? 100 : Math.round(done / req * 100) };
+}
+function overallProgress(proj) {
+  let req = 0, done = 0;
+  TEMPLATE.forEach(ph => { const p = phaseProgress(proj, ph); req += p.req; done += p.done; });
+  return { req, done, pct: req === 0 ? 100 : Math.round(done / req * 100) };
+}
+function nextAction(proj) {
+  if (proj.gate === 'park') return { special: 'parked' };
+  for (const ph of TEMPLATE) {
+    for (const g of ph.groups) {
+      for (const it of g.items) {
+        if (!isRequired(proj, it)) continue;
+        const d = itemDone(proj, it);
+        if (d === false) return { item: it, phase: ph };
+      }
+    }
+    if (ph.gate && proj.gate === 'pending') return { special: 'gate', phase: ph };
+  }
+  return { special: 'done' };
+}
+
+/* ================= Rendering ================= */
+const app = document.getElementById('app');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function render() {
+  renderProjectSelect();
+  const proj = activeProject();
+  if (!proj) { renderEmpty(); return; }
+  const ov = overallProgress(proj);
+  const na = nextAction(proj);
+
+  let html = '';
+
+  // Overview card
+  const circ = 2 * Math.PI * 31;
+  const scopeVal = (itemState(proj, 'p0_scope').value || '');
+  const suggestFull = proj.rigor === 'light' && /Team|Public/.test(scopeVal);
+  html += `<div class="overview">
+    <div class="ring">
+      <svg width="74" height="74"><circle cx="37" cy="37" r="31" fill="none" stroke="var(--border)" stroke-width="6"/>
+      <circle cx="37" cy="37" r="31" fill="none" stroke="${ov.pct === 100 ? 'var(--done)' : 'var(--accent)'}" stroke-width="6"
+        stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * (1 - ov.pct / 100)}"/></svg>
+      <div class="pct">${ov.pct}%</div>
+    </div>
+    <div class="ov-main">
+      <div class="ov-name">${esc(proj.name)}</div>
+      <div class="ov-meta">${ov.done}/${ov.req} required items · updated ${new Date(proj.updatedAt).toLocaleDateString()} ${new Date(proj.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+      ${renderNextAction(na)}
+      <div class="rigor-row">
+        <span style="font-size:12.5px;color:var(--text-dim)">Rigor:</span>
+        <span class="seg">
+          <button data-rigor="light" class="${proj.rigor === 'light' ? 'on' : ''}" title="Skip heavy docs/testing — focus on a working core">Lightweight</button>
+          <button data-rigor="full" class="${proj.rigor === 'full' ? 'on' : ''}" title="Tests, docs, security, extensibility all required">Full rigor</button>
+        </span>
+        ${suggestFull ? '<span class="hint-chip" id="suggestFull" style="cursor:pointer" title="Click to switch">💡 “' + esc(scopeVal) + '” usually deserves Full rigor — click to switch</span>' : ''}
+      </div>
+    </div>
+  </div>`;
+
+  if (proj.gate === 'park') {
+    html += `<div class="banner">⏸ <b>Parked at validation.</b> Phase 0 gate is set to “Park” — revisit the pain point and success metric before investing more time. (Change it in Phase 0.)</div>`;
+  } else if (proj.gate === 'pending' && anyWorkPastPhase0(proj)) {
+    html += `<div class="banner">⚠ You’ve started work past Phase 0, but the validation gate hasn’t been passed. Take 5 minutes to confirm it’s worth building — then hit <b>Pass</b> in Phase 0.</div>`;
+  }
+
+  // Filter row
+  html += `<div class="filter-row">
+    <span style="font-size:12.5px;color:var(--text-dim)">Show:</span>
+    <span class="seg" id="filterSeg">
+      ${['all', 'open', 'done', 'na'].map(f => `<button data-filter="${f}" class="${statusFilter === f ? 'on' : ''}">${{ all: 'All', open: 'Open', done: 'Done', na: 'N/A' }[f]}</button>`).join('')}
+    </span>
+    <span class="grow"></span>
+    <button class="mini-btn" id="expandAll">Expand all</button>
+    <button class="mini-btn" id="collapseAll">Collapse all</button>
+  </div>`;
+
+  // Handoff panel
+  html += renderHandoffPanel(proj);
+
+  // Phases
+  TEMPLATE.forEach(ph => { html += renderPhase(proj, ph); });
+
+  app.innerHTML = html;
+  wireEvents(proj);
+}
+
+function anyWorkPastPhase0(proj) {
+  return ALL_ITEMS.some(it => it.phaseId !== 'p0' && (itemDone(proj, it) === true || itemState(proj, it.id).status !== 'todo'))
+    || proj.features.length > 0;
+}
+
+function renderNextAction(na) {
+  if (na.special === 'done') return `<div class="next-action all-done">✔ <b>All required items complete.</b> Ship it — then keep Phase 5 alive.</div>`;
+  if (na.special === 'parked') return `<div class="next-action" data-jump="p0">⏸ Parked — revisit <b>Phase 0</b> validation.</div>`;
+  if (na.special === 'gate') return `<div class="next-action" data-jump="p0">▸ Up next: <b>Decide the Phase 0 gate</b> — pass it or park it.</div>`;
+  return `<div class="next-action" data-jump="${na.phase.id}" data-jumpitem="${na.item.id}">▸ Up next · Phase ${na.phase.num}: <b>${esc(na.item.label)}</b></div>`;
+}
+
+function renderHandoffPanel(proj) {
+  const open = openPhases['handoff'] !== false; // default open
+  const h = proj.handoff;
+  const filled = [h.currentState, h.nextAction, h.knownIssues].filter(x => (x || '').trim()).length;
+  return `<div class="handoff-panel phase ${open ? 'open' : ''}" data-phase="handoff">
+    <div class="phase-head" data-toggle="handoff">
+      <div class="phase-num" style="border-color:var(--accent);color:var(--accent)">⇄</div>
+      <div class="phase-title-wrap">
+        <div class="phase-title">Handoff Snapshot</div>
+        <div class="phase-sub">Where things stand right now — the part a new session or collaborator reads first</div>
+      </div>
+      <div class="phase-pct">${filled}/3 fields</div>
+      <span class="chev">▶</span>
+    </div>
+    <div class="phase-body">
+      <div class="ho-field"><label>Current state — what works today, what’s in flight</label>
+        <textarea data-ho="currentState" placeholder="e.g. Core flow works end-to-end; trends chart half-built on branch feat/trends…">${esc(h.currentState)}</textarea></div>
+      <div class="ho-field"><label>Next action — the single most useful next step</label>
+        <textarea data-ho="nextAction" placeholder="e.g. Wire the export button to the new schema, then test on iOS Safari.">${esc(h.nextAction)}</textarea></div>
+      <div class="ho-field"><label>Known issues / gotchas</label>
+        <textarea data-ho="knownIssues" placeholder="e.g. localStorage quota errors on iOS private mode; date parsing assumes local tz.">${esc(h.knownIssues)}</textarea></div>
+      <div class="ho-field"><label>Decision log — why things are the way they are</label>
+        <div class="decision-add">
+          <input type="text" id="decisionInput" placeholder="e.g. Chose single-file HTML over a build step — zero-install priority">
+          <button class="btn" id="decisionAdd">Log</button>
+        </div>
+        <div>${proj.handoff.decisions.map((d, i) => `<div class="decision">
+          <span class="d-date">${esc(d.date)}</span><span class="d-text">${esc(d.text)}</span>
+          <button class="del" data-deldecision="${i}" title="Remove">✕</button></div>`).join('')}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderPhase(proj, ph) {
+  const prog = phaseProgress(proj, ph);
+  const open = !!openPhases[ph.id];
+  const complete = prog.req > 0 ? prog.done === prog.req : true;
+  let body = '';
+  ph.groups.forEach(g => {
+    const rows = g.items.map(it => renderItem(proj, it)).filter(Boolean).join('');
+    if (rows) body += `<div class="group-title">${esc(g.title)}</div>${rows}`;
+  });
+  if (!body) body = `<div style="font-size:13px;color:var(--text-muted);padding:10px 0">No items match the current filter.</div>`;
+  if (ph.gate) body += renderGate(proj);
+  return `<div class="phase ${open ? 'open' : ''} ${complete && prog.req > 0 ? 'complete' : ''}" data-phase="${ph.id}" id="phase-${ph.id}">
+    <div class="phase-head" data-toggle="${ph.id}">
+      <div class="phase-num">${complete && prog.req > 0 ? '✔' : ph.num}</div>
+      <div class="phase-title-wrap">
+        <div class="phase-title">Phase ${ph.num}: ${esc(ph.title)}</div>
+        <div class="phase-sub">${esc(ph.sub)}</div>
+      </div>
+      <div class="phase-pct">${prog.done}/${prog.req}</div>
+      <span class="chev">▶</span>
+    </div>
+    <div class="phase-bar"><i style="width:${prog.pct}%"></i></div>
+    <div class="phase-body">${body}</div>
+  </div>`;
+}
+
+function renderGate(proj) {
+  const g = proj.gate;
+  return `<div class="gate ${g === 'pass' ? 'pass' : g === 'park' ? 'park' : ''}">
+    <span class="gate-label">${g === 'pass' ? '✔ Gate passed — worth building. Proceed to Phase 1.'
+      : g === 'park' ? '⏸ Parked — not now. That’s a valid outcome.'
+      : 'Gate: does this pass validation?'}</span>
+    <button class="btn ${g === 'pass' ? 'primary' : ''}" data-gate="pass">Pass — proceed</button>
+    <button class="btn" data-gate="park">Park it</button>
+    ${g !== 'pending' ? '<button class="mini-btn" data-gate="pending">reset</button>' : ''}
+  </div>`;
+}
+
+function renderItem(proj, it) {
+  const st = itemState(proj, it.id);
+  const status = effectiveStatus(proj, it);
+  // filter
+  if (statusFilter === 'open' && (status === 'done' || status === 'na')) return '';
+  if (statusFilter === 'done' && status !== 'done') return '';
+  if (statusFilter === 'na' && status !== 'na') return '';
+
+  const optional = !isRequired(proj, it);
+  const dim = optional ? 'opacity:0.65;' : '';
+  let input = '';
+  if (status !== 'na') {
+    if (it.type === 'text') {
+      input = `<div class="item-input"><input type="text" data-val="${it.id}" value="${esc(st.value)}" placeholder="${esc(it.hint || 'Your answer…')}"></div>`;
+    } else if (it.type === 'long') {
+      input = `<div class="item-input"><textarea data-val="${it.id}" placeholder="${esc(it.hint || 'Your answer…')}">${esc(st.value)}</textarea></div>`;
+    } else if (it.type === 'select') {
+      input = `<div class="item-input"><select data-val="${it.id}">
+        <option value="">— choose —</option>
+        ${it.options.map(o => `<option ${st.value === o ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>`;
+    } else if (it.type === 'moscow') {
+      input = renderMoscow(proj);
+    } else if (it.type === 'featprogress') {
+      input = renderFeatProgress(proj);
+    }
+  }
+  const statusTitle = it.type === 'check' ? 'Click: to-do → in progress → done' : 'Completes automatically when answered';
+  const checkIcon = status === 'done' ? '✔' : status === 'doing' ? '◐' : status === 'na' ? '—' : '';
+  return `<div class="item" data-status="${status}" data-item="${it.id}" style="${dim}">
+    <div class="item-row">
+      <button class="st-btn" data-cycle="${it.id}" title="${statusTitle}" ${it.type !== 'check' && status !== 'na' ? 'disabled style="cursor:default"' : ''}>${checkIcon}</button>
+      <div class="item-main">
+        <div class="item-label">${esc(it.label)}${optional ? '<span class="opt-tag" title="Optional in Lightweight rigor">optional</span>' : ''}</div>
+        ${it.hint && (it.type === 'check' || it.type === 'moscow' || it.type === 'featprogress' || it.type === 'select') ? `<div class="item-hint">${esc(it.hint)}</div>` : ''}
+        ${input}
+        ${status === 'na' && st.naReason ? `<div class="na-reason">N/A — ${esc(st.naReason)}</div>` : ''}
+        ${noteOpen[it.id] || st.note ? `<div class="item-note"><textarea data-note="${it.id}" placeholder="Note…">${esc(st.note)}</textarea></div>` : ''}
+      </div>
+      <div class="item-actions">
+        <button class="mini-btn ${st.note ? 'active' : ''}" data-notetoggle="${it.id}" title="Add a note">✎ note</button>
+        <button class="mini-btn ${status === 'na' ? 'active' : ''}" data-na="${it.id}" title="Mark not applicable">${status === 'na' ? '↩ undo' : 'N/A'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderMoscow(proj) {
+  const order = { M: 0, S: 1, C: 2, W: 3 };
+  const feats = [...proj.features].sort((a, b) => order[a.priority] - order[b.priority]);
+  return `<div class="moscow">
+    <div class="moscow-add">
+      <input type="text" id="featInput" placeholder="Feature name…">
+      <select id="featPri"><option value="M">Must</option><option value="S">Should</option><option value="C">Could</option><option value="W">Won’t</option></select>
+      <button class="btn" id="featAdd">Add</button>
+    </div>
+    ${feats.map(f => `<div class="feat ${f.status}" >
+      <span class="pri ${f.priority}" data-featpri="${f.id}" title="Click to cycle priority">${f.priority}</span>
+      <span class="feat-name">${esc(f.name)}</span>
+      <button class="feat-st" data-featst="${f.id}" title="Click to cycle status">${{ todo: 'to-do', doing: 'building', done: 'done' }[f.status]}</button>
+      <button class="del" data-featdel="${f.id}" title="Remove">✕</button>
+    </div>`).join('')}
+    <div class="moscow-legend"><b>M</b>ust · <b>S</b>hould · <b>C</b>ould · <b>W</b>on’t (explicitly out of scope)</div>
+  </div>`;
+}
+
+function renderFeatProgress(proj) {
+  const musts = proj.features.filter(f => f.priority === 'M');
+  const shoulds = proj.features.filter(f => f.priority === 'S');
+  const md = musts.filter(f => f.status === 'done').length;
+  const sd = shoulds.filter(f => f.status === 'done').length;
+  if (proj.features.length === 0) return `<div class="feat-summary">No features defined yet — add them on the Phase 1 MoSCoW board.</div>`;
+  return `<div class="feat-summary">Must-haves: <b>${md}/${musts.length}</b> done${shoulds.length ? ` · Should-haves: ${sd}/${shoulds.length}` : ''} — manage on the Phase 1 board.</div>`;
+}
+
+function renderProjectSelect() {
+  const sel = document.getElementById('projectSelect');
+  sel.innerHTML = store.projects.map(p =>
+    `<option value="${p.id}" ${p.id === store.activeId ? 'selected' : ''}>${esc(p.name)} (${overallProgress(p).pct}%)</option>`).join('')
+    || '<option value="">No projects yet</option>';
+}
+
+function renderEmpty() {
+  app.innerHTML = `<div class="empty">
+    <h2>Every project deserves a clean handoff.</h2>
+    <p>Track a project from quick validation through post-launch with an MVP-first, phased checklist.
+       Answers, decisions, and status live here — export JSON any time to hand it to a collaborator, a future you, or an AI session.</p>
+    <button class="btn primary" id="emptyNew">+ Start a project</button>
+    <button class="btn" id="emptyExample">Load example (FogCheck)</button>
+    <button class="btn" id="emptyImport">Import JSON</button>
+  </div>`;
+  document.getElementById('emptyNew').onclick = createProjectFlow;
+  document.getElementById('emptyExample').onclick = loadExample;
+  document.getElementById('emptyImport').onclick = () => document.getElementById('importFile').click();
+}
+
+/* ================= Events ================= */
+function wireEvents(proj) {
+  // Phase toggles
+  app.querySelectorAll('[data-toggle]').forEach(el => el.onclick = () => {
+    const id = el.dataset.toggle;
+    if (id === 'handoff') openPhases['handoff'] = openPhases['handoff'] === false ? true : false;
+    else openPhases[id] = !openPhases[id];
+    render();
+  });
+  // Next-action jump
+  app.querySelectorAll('.next-action[data-jump]').forEach(el => el.onclick = () => {
+    openPhases[el.dataset.jump] = true;
+    render();
+    const target = el.dataset.jumpitem
+      ? app.querySelector(`[data-item="${el.dataset.jumpitem}"]`)
+      : document.getElementById('phase-' + el.dataset.jump);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  // Rigor
+  app.querySelectorAll('[data-rigor]').forEach(el => el.onclick = () => { proj.rigor = el.dataset.rigor; save(); render(); });
+  const sf = document.getElementById('suggestFull');
+  if (sf) sf.onclick = () => { proj.rigor = 'full'; save(); render(); toast('Switched to Full rigor'); };
+  // Filter
+  app.querySelectorAll('#filterSeg button').forEach(el => el.onclick = () => { statusFilter = el.dataset.filter; render(); });
+  const ea = document.getElementById('expandAll'); if (ea) ea.onclick = () => { TEMPLATE.forEach(p => openPhases[p.id] = true); openPhases['handoff'] = true; render(); };
+  const ca = document.getElementById('collapseAll'); if (ca) ca.onclick = () => { TEMPLATE.forEach(p => openPhases[p.id] = false); openPhases['handoff'] = false; render(); };
+  // Gate
+  app.querySelectorAll('[data-gate]').forEach(el => el.onclick = e => { e.stopPropagation(); proj.gate = el.dataset.gate; save(); render(); });
+  // Check cycle + N/A
+  app.querySelectorAll('[data-cycle]').forEach(el => el.onclick = () => {
+    const st = itemState(proj, el.dataset.cycle);
+    if (st.status === 'na') { st.status = 'todo'; st.naReason = ''; }
+    else st.status = st.status === 'todo' ? 'doing' : st.status === 'doing' ? 'done' : 'todo';
+    save(); render();
+  });
+  app.querySelectorAll('[data-na]').forEach(el => el.onclick = () => {
+    const st = itemState(proj, el.dataset.na);
+    if (st.status === 'na') { st.status = 'todo'; st.naReason = ''; }
+    else {
+      const reason = prompt('Why is this not applicable? (optional — helps whoever picks this up)') ;
+      if (reason === null) return;
+      st.status = 'na'; st.naReason = reason.trim();
+    }
+    save(); render();
+  });
+  // Value inputs — save on change, don't rerender mid-typing
+  app.querySelectorAll('[data-val]').forEach(el => {
+    el.addEventListener('change', () => { itemState(proj, el.dataset.val).value = el.value; save(); render(); });
+    el.addEventListener('input', () => { itemState(proj, el.dataset.val).value = el.value; scheduleSave(); });
+  });
+  // Notes
+  app.querySelectorAll('[data-notetoggle]').forEach(el => el.onclick = () => {
+    noteOpen[el.dataset.notetoggle] = !noteOpen[el.dataset.notetoggle]; render();
+  });
+  app.querySelectorAll('[data-note]').forEach(el => {
+    el.addEventListener('input', () => { itemState(proj, el.dataset.note).note = el.value; scheduleSave(); });
+  });
+  // MoSCoW
+  const featAdd = document.getElementById('featAdd');
+  if (featAdd) {
+    const doAdd = () => {
+      const inp = document.getElementById('featInput');
+      const name = inp.value.trim();
+      if (!name) return;
+      proj.features.push({ id: 'f_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), name, priority: document.getElementById('featPri').value, status: 'todo' });
+      save(); render();
+      const ni = document.getElementById('featInput'); if (ni) ni.focus();
+    };
+    featAdd.onclick = doAdd;
+    document.getElementById('featInput').addEventListener('keydown', e => { if (e.key === 'Enter') doAdd(); });
+  }
+  app.querySelectorAll('[data-featpri]').forEach(el => el.onclick = () => {
+    const f = proj.features.find(f => f.id === el.dataset.featpri);
+    const cycle = { M: 'S', S: 'C', C: 'W', W: 'M' };
+    f.priority = cycle[f.priority]; save(); render();
+  });
+  app.querySelectorAll('[data-featst]').forEach(el => el.onclick = () => {
+    const f = proj.features.find(f => f.id === el.dataset.featst);
+    f.status = f.status === 'todo' ? 'doing' : f.status === 'doing' ? 'done' : 'todo'; save(); render();
+  });
+  app.querySelectorAll('[data-featdel]').forEach(el => el.onclick = () => {
+    proj.features = proj.features.filter(f => f.id !== el.dataset.featdel); save(); render();
+  });
+  // Handoff fields
+  app.querySelectorAll('[data-ho]').forEach(el => {
+    el.addEventListener('input', () => { proj.handoff[el.dataset.ho] = el.value; scheduleSave(); });
+  });
+  const dAdd = document.getElementById('decisionAdd');
+  if (dAdd) {
+    const doLog = () => {
+      const inp = document.getElementById('decisionInput');
+      const text = inp.value.trim();
+      if (!text) return;
+      proj.handoff.decisions.unshift({ date: new Date().toISOString().slice(0, 10), text });
+      save(); render();
+    };
+    dAdd.onclick = doLog;
+    document.getElementById('decisionInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLog(); });
+  }
+  app.querySelectorAll('[data-deldecision]').forEach(el => el.onclick = () => {
+    proj.handoff.decisions.splice(Number(el.dataset.deldecision), 1); save(); render();
+  });
+}
+
+let saveTimer = null;
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 600); }
+
+/* ================= Toolbar ================= */
+document.getElementById('projectSelect').onchange = e => { store.activeId = e.target.value; save(); render(); };
+document.getElementById('newBtn').onclick = createProjectFlow;
+function createProjectFlow() {
+  const name = prompt('Project name?');
+  if (!name || !name.trim()) return;
+  const p = newProject(name.trim());
+  store.projects.push(p); store.activeId = p.id;
+  openPhases = { p0: true };
+  save(); render();
+  toast('Project created — start with Phase 0 validation.');
+}
+document.getElementById('renameBtn').onclick = () => {
+  const p = activeProject(); if (!p) return;
+  const name = prompt('New name:', p.name);
+  if (name && name.trim()) { p.name = name.trim(); save(); render(); }
+};
+document.getElementById('deleteBtn').onclick = () => {
+  const p = activeProject(); if (!p) return;
+  if (!confirm(`Delete “${p.name}” and all its data? Consider exporting JSON first.`)) return;
+  store.projects = store.projects.filter(x => x.id !== p.id);
+  store.activeId = store.projects[0] ? store.projects[0].id : null;
+  save(); render();
+};
+
+/* ---- Export / Import ---- */
+function buildExport(proj) {
+  const ov = overallProgress(proj);
+  const items = ALL_ITEMS.map(it => {
+    const st = itemState(proj, it.id);
+    return {
+      id: it.id, phase: it.phaseTitle, group: it.group, label: it.label, type: it.type,
+      required: isRequired(proj, it), status: effectiveStatus(proj, it),
+      value: st.value || undefined, note: st.note || undefined, naReason: st.status === 'na' ? (st.naReason || '') : undefined,
+    };
+  });
+  return {
+    schema: 'project-handoff-checklist',
+    schemaVersion: SCHEMA_VERSION,
+    appVersion: APP_VERSION,
+    exportedAt: new Date().toISOString(),
+    project: {
+      id: proj.id, name: proj.name, rigor: proj.rigor, gate: proj.gate,
+      createdAt: proj.createdAt, updatedAt: proj.updatedAt,
+      progress: { done: ov.done, required: ov.req, percent: ov.pct },
+      handoff: proj.handoff,
+      features: proj.features,
+      items,
+    },
+  };
+}
+document.getElementById('exportBtn').onclick = () => {
+  const proj = activeProject();
+  if (!proj) { toast('No project to export'); return; }
+  const data = buildExport(proj);
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = proj.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-handoff-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast('JSON exported ⬇');
+};
+document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
+document.getElementById('importFile').addEventListener('change', e => {
+  const file = e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (data.schema !== 'project-handoff-checklist' || !data.project) throw new Error('Not a handoff-checklist export.');
+      if (data.schemaVersion > SCHEMA_VERSION) throw new Error('Export is from a newer version of this tool.');
+      const src = data.project;
+      const p = newProject(src.name || 'Imported project', src.rigor);
+      p.gate = src.gate || 'pending';
+      p.createdAt = src.createdAt || p.createdAt;
+      p.handoff = Object.assign({ currentState: '', nextAction: '', knownIssues: '', decisions: [] }, src.handoff);
+      p.features = Array.isArray(src.features) ? src.features : [];
+      (src.items || []).forEach(it => {
+        if (!ITEM_BY_ID[it.id]) return; // tolerate unknown items from older/newer templates
+        p.items[it.id] = {
+          status: it.status === 'na' ? 'na' : (ITEM_BY_ID[it.id].type === 'check' ? (['todo', 'doing', 'done'].includes(it.status) ? it.status : 'todo') : 'todo'),
+          value: it.value || '', note: it.note || '', naReason: it.naReason || '',
+        };
+      });
+      const existing = store.projects.find(x => x.name === p.name);
+      if (existing && confirm(`A project named “${p.name}” already exists. Replace it? (Cancel imports as a copy.)`)) {
+        p.id = existing.id;
+        store.projects = store.projects.map(x => x.id === existing.id ? p : x);
+      } else {
+        if (existing) p.name += ' (imported)';
+        store.projects.push(p);
+      }
+      store.activeId = p.id;
+      save(); render();
+      toast(`Imported “${p.name}”`);
+    } catch (err) {
+      toast('⚠ Import failed: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+});
+
+/* ---- Handoff markdown ---- */
+function buildMarkdown(proj) {
+  const ov = overallProgress(proj);
+  const lines = [];
+  lines.push(`# Handoff: ${proj.name}`);
+  lines.push('');
+  lines.push(`_${ov.pct}% complete (${ov.done}/${ov.req} required items) · rigor: ${proj.rigor === 'full' ? 'Full' : 'Lightweight'} · gate: ${proj.gate} · exported ${new Date().toISOString().slice(0, 10)}_`);
+  const h = proj.handoff;
+  if ((h.currentState || h.nextAction || h.knownIssues || '').trim() || h.decisions.length) {
+    lines.push('', '## Snapshot');
+    if (h.currentState) lines.push('', '**Current state:** ' + h.currentState);
+    if (h.nextAction) lines.push('', '**Next action:** ' + h.nextAction);
+    if (h.knownIssues) lines.push('', '**Known issues:** ' + h.knownIssues);
+    if (h.decisions.length) {
+      lines.push('', '**Decisions:**');
+      h.decisions.forEach(d => lines.push(`- ${d.date} — ${d.text}`));
+    }
+  }
+  if (proj.features.length) {
+    lines.push('', '## Features (MoSCoW)');
+    const label = { M: 'Must', S: 'Should', C: 'Could', W: 'Won’t' };
+    ['M', 'S', 'C', 'W'].forEach(pri => {
+      proj.features.filter(f => f.priority === pri).forEach(f => {
+        lines.push(`- [${f.status === 'done' ? 'x' : ' '}] **${label[pri]}** — ${f.name}${f.status === 'doing' ? ' _(in progress)_' : ''}`);
+      });
+    });
+  }
+  TEMPLATE.forEach(ph => {
+    const rows = [];
+    ph.groups.forEach(g => g.items.forEach(it => {
+      if (it.type === 'moscow' || it.type === 'featprogress') return;
+      const st = itemState(proj, it.id);
+      const status = effectiveStatus(proj, it);
+      if (status === 'na') { rows.push(`- ~~${it.label}~~ — N/A${st.naReason ? ' (' + st.naReason + ')' : ''}`); return; }
+      const mark = status === 'done' ? 'x' : ' ';
+      let line = `- [${mark}] ${it.label}`;
+      if (st.value && st.value.trim()) line += `\n  - ${st.value.trim().replace(/\n/g, '\n    ')}`;
+      if (st.note && st.note.trim()) line += `\n  - _note: ${st.note.trim().replace(/\n/g, ' ')}_`;
+      rows.push(line);
+    }));
+    if (rows.length) { lines.push('', `## Phase ${ph.num}: ${ph.title}`, '', ...rows); }
+  });
+  return lines.join('\n') + '\n';
+}
+document.getElementById('copyMdBtn').onclick = async () => {
+  const proj = activeProject();
+  if (!proj) { toast('No project selected'); return; }
+  const md = buildMarkdown(proj);
+  try {
+    await navigator.clipboard.writeText(md);
+    toast('Handoff markdown copied 📋');
+  } catch (e) {
+    // clipboard can be blocked on file:// — fall back to download
+    const blob = new Blob([md], { type: 'text/markdown' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'handoff.md';
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('Clipboard blocked — downloaded handoff.md instead');
+  }
+};
+
+/* ---- Theme ---- */
+function applyTheme() {
+  const t = store.theme || 'auto';
+  const dark = t === 'dark' || (t === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+}
+document.getElementById('themeBtn').onclick = () => {
+  store.theme = { auto: 'light', light: 'dark', dark: 'auto' }[store.theme || 'auto'];
+  applyTheme(); save();
+  toast('Theme: ' + store.theme);
+};
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+
+/* ---- Toast ---- */
+let toastTimer = null;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+/* ---- Example project (dry-run test data: FogCheck) ---- */
+function loadExample() {
+  const p = newProject('FogCheck (example)', 'light');
+  p.gate = 'pass';
+  const set = (id, value) => { p.items[id] = { status: 'todo', value, note: '', naReason: '' }; };
+  const check = (id, status) => { p.items[id] = { status, value: '', note: '', naReason: '' }; };
+  const na = (id, reason) => { p.items[id] = { status: 'na', value: '', note: '', naReason: reason }; };
+  set('p0_pain', 'As someone with brain fog (ME/CFS, Long COVID, MS), I want an objective daily cognition check so I can pace my day instead of guessing and crashing.');
+  set('p0_must', 'Must-have');
+  set('p0_scope', 'Personal but shareable');
+  set('p0_metric', 'Day classification matches how the day actually went; fewer post-exertional crashes per month.');
+  set('p0_constraints', 'Must run offline on a phone with zero install friction → single-file PWA, localStorage only, no server.');
+  set('p0_effort', 'Medium');
+  set('p1_overview', 'A PWA that runs short cognitive assessments (verbal fluency, reaction time, memory, attention) plus self-report, compares against a personal baseline, and classifies each day as Clear / Managed / Fog / Rest.');
+  set('p1_goals', 'Objective daily check-in in under 2 minutes; personal baseline (not population norms); trends over 30 days; export for healthcare providers.');
+  set('p1_nongoals', 'No accounts, no server sync, no medical diagnosis claims, no social features.');
+  set('p1_users', 'Me first; shareable with anyone managing cognitive fatigue. Non-technical users on mobile.');
+  set('p1_io', 'Inputs: test taps/answers, 1–5 self-ratings. Outputs: day classification, trend chart, JSON/text export for providers.');
+  set('p1_constraints', 'iOS Safari + Android Chrome; all data local for privacy; must work offline via service worker.');
+  set('p2_components', 'Single index.html: screen router, 5 test modules, scoring engine, baseline calibrator, storage layer, trends chart.');
+  set('p2_datamodel', 'Session { date, testScores{}, selfReport{}, composite, dayType }; Baseline = rolling average of last 20 sessions after 14-session calibration.');
+  set('p2_stack', 'Vanilla JS single file. Why: zero build step, trivially installable as PWA, no maintenance burden.');
+  set('p2_functional', 'Flows: quick check (~2 min) vs full assessment (~8 min); first-run calibration; day-type guidance. Edge cases: interrupted test, first 14 days without baseline.');
+  set('p2_errors', 'Guard localStorage quota errors; recover interrupted sessions by discarding partial test data.');
+  set('p2_blockers', 'iOS PWA quirks (storage eviction, add-to-home-screen flow).');
+  set('p2_deploy', 'GitHub Pages — open index.html, add to home screen.');
+  na('p2_repo', 'Single-file app — no structure to plan');
+  na('p2_env', 'No build step, no server, no env');
+  check('p3_scaffold', 'done');
+  check('p3_readability', 'done');
+  check('p3_modular', 'doing');
+  check('p3_errhandling', 'done');
+  check('p3_config', 'done');
+  check('p4_happy', 'done');
+  check('p4_compat', 'doing');
+  check('p4_readme', 'done');
+  check('p4_package', 'done');
+  check('p4_security', 'done');
+  set('p5_feedback', 'Baseline feels accurate after ~3 weeks; verbal fluency scoring is noisy on bad-typing days.');
+  set('p5_debt', 'index.html is ~70KB and growing — split scoring engine into its own module; service worker cache version bumps are manual.');
+  set('p5_lessons', 'Personal baselines beat generic norms; single-file constraint forced healthy scope discipline.');
+  p.features = [
+    { id: 'f_ex1', name: 'Quick Check (fluency + reaction + self-report)', priority: 'M', status: 'done' },
+    { id: 'f_ex2', name: 'Day classification vs personal baseline', priority: 'M', status: 'done' },
+    { id: 'f_ex3', name: 'Full 5-test assessment', priority: 'M', status: 'done' },
+    { id: 'f_ex4', name: '30-day trends chart', priority: 'S', status: 'done' },
+    { id: 'f_ex5', name: 'Data export for healthcare providers', priority: 'S', status: 'done' },
+    { id: 'f_ex6', name: 'Customisable guidance messages', priority: 'C', status: 'done' },
+    { id: 'f_ex7', name: 'Server sync / accounts', priority: 'W', status: 'todo' },
+  ];
+  p.handoff = {
+    currentState: 'Live and in daily use. Core assessments, baseline calibration, trends, and export all working. Service worker at cache v2.',
+    nextAction: 'Smooth verbal-fluency scoring against typing-speed noise; then split the scoring engine out of index.html.',
+    knownIssues: 'iOS may evict localStorage under storage pressure — remind users to export periodically. Cache version must be bumped manually on deploy.',
+    decisions: [
+      { date: '2026-07-12', text: 'Added Cognitive Web score sync button' },
+      { date: '2026-06-20', text: 'Chose personal rolling baseline over population norms — fairness for fluctuating conditions' },
+      { date: '2026-06-01', text: 'Single-file PWA, no server — privacy and zero-install were non-negotiable' },
+    ],
+  };
+  store.projects.push(p);
+  store.activeId = p.id;
+  openPhases = { handoff: true };
+  save(); render();
+  toast('Example loaded — this is FogCheck run through the checklist.');
+}
+
+/* ---- Boot ---- */
+applyTheme();
+if (store.projects.length && !store.projects.find(p => p.id === store.activeId)) store.activeId = store.projects[0].id;
+render();
+</script>
+</body>
+</html>
